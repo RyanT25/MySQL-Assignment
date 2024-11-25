@@ -209,3 +209,20 @@ SELECT Breakdowns.*, Member_Location FROM Breakdowns INNER JOIN Members INNER JO
 -- 10. Retrieve the total number of breakdowns handled by each engineer during 2024.
 SELECT CONCAT(First_Name,' ', Last_Name) AS 'Engineer', COUNT(Engineers.Engineer_ID) AS 'Handled Breakdowns in 2024' FROM  Engineers LEFT JOIN Breakdowns ON Engineers.Engineer_ID=Breakdowns.Engineer_ID WHERE YEAR(Breakdown_Date)='2024' GROUP BY Engineers.Engineer_ID;
 
+-- Difficult Tasks
+
+-- 1. Retrieve a list of members along with their vehicles using a join.
+SELECT * FROM Members INNER JOIN Vehicles ON Members.Member_ID=Vehicles.Member_ID;
+-- 2. Retrieve breakdown details along with the respective member details using a join.
+SELECT Breakdowns.*, Members.* FROM Breakdowns INNER JOIN Vehicles INNER JOIN Members ON Breakdowns.Vehicle_Registration=Vehicles.Vehicle_Registration AND Vehicles.Member_ID=Members.Member_ID;
+-- 3. Find members who own a vehicle but have never experienced a breakdown.
+SELECT Vehicles.*, COUNT(Breakdowns.Vehicle_Registration) AS 'No of Breakdowns' FROM Vehicles LEFT JOIN Breakdowns ON Vehicles.Vehicle_Registration=Breakdowns.Vehicle_Registration WHERE Breakdowns.Vehicle_Registration IS NULL GROUP BY Vehicles.Vehicle_Registration;
+-- 4. Retrieve vehicles along with the count of their breakdowns using a join and group by.
+SELECT Vehicles.*, COUNT(Breakdowns.Vehicle_Registration) AS 'No of Breakdowns' FROM Vehicles LEFT JOIN Breakdowns ON Vehicles.Vehicle_Registration=Breakdowns.Vehicle_Registration GROUP BY Vehicles.Vehicle_Registration;
+-- 5. Find members whose vehicles have broken down more than twice.
+SELECT Members.*, COUNT(Breakdowns.Vehicle_Registration) AS ' No of Breakdowns' FROM Breakdowns INNER JOIN Members INNER JOIN Vehicles ON Breakdowns.Vehicle_Registration=Vehicles.Vehicle_Registration AND Vehicles.Member_ID=Members.Member_ID GROUP BY Members.Member_ID HAVING COUNT(Breakdowns.Vehicle_Registration)>=2;
+-- 6. Retrieve breakdowns where multiple vehicles broke down on the same day.
+-- 7. Count the total breakdowns handled by each engineer and label those who handled more than 5 breakdowns as 'Expert' and others as 'Beginner' using a CASE expression.
+-- 8. List all vehicles that have never had a breakdown using a subquery.
+-- 9. Find the average age of members whose vehicles have experienced at least one breakdown.
+-- 10. Retrieve the top 3 vehicles with the highest number of breakdowns, ordered by breakdown count.
